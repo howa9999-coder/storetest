@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <!--
+        <header class="topbar">
+        <div class="logo">
+            <h2>Brand.</h2>
+        </div>
+        <i class="fas fa-bell"></i>
+        <div class="user">
+            <img src="img/user.png" alt="">
+        </div>
+    </header>
+    -->
+    <nav>
+        <div class="logo"><img id="sidebar-logo" src="repeat.png" alt=""></div>
+        <ul>
+            <!--
+                            <li><button class="tab-btn"><img src="images/icons/box.png" alt=""></button></li>
+            -->
+            <li><button class="tab-btn"><img src="images/icons/dashboard.svg" alt=""></button></li>
+            <li><button class="tab-btn"><img src="images/icons/product.svg" alt=""></button></li>
+            <li><button class="tab-btn"><img src="images/icons/sell.svg" alt=""></button></li>
+            <li><button class="tab-btn"><img src="images/icons/info.svg" alt=""></button></li>
+            <li><button class="tab-btn"><img src="images/icons/settings.svg" alt=""></button></li>
+        </ul>
+        <button id="download"><img src="images/icons/dowload.svg" alt=""></button>
+        <div class="toggle-container">
+            <input type="checkbox" id="dark-mode-toggle" class="toggle-checkbox">
+            <label for="dark-mode-toggle" class="toggle-slider"></label>
+          </div>
+    </nav>
+    <!--MAIN CONTENT-->
+    <main>
+
+        <!--ALL PRODUCTS
+                <div class="content all-products">
+            <h2>جميع المنتجات</h2>
+            <div class="container-cards">
+            </div>
+        </div>-->
+                <!--REPORTS-->
+                <div class="report content">
+                    <h2>تقارير</h2>
+                    <div class="cards">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="number" id="products-num">1217</div>
+                                <div class="card-name">عدد المنتوجات</div>
+                            </div>
+                            <div class="icon-box">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="number" id="products-quant">42</div>
+                                <div class="card-name">كمية المنتوجات</div>
+                            </div>
+                            <div class="icon-box">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="number" id="products-sell">68</div>
+                                <div class="card-name">عدد المبيعات</div>
+                            </div>
+                            <div class="icon-box">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="number" id="revenu">$4500</div>
+                                <div class="card-name">الربح</div>
+                            </div>
+                            <div class="icon-box">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="number" id="revenu">تنبيه</div>
+                                <div class="card-name">نفاذ المخزون</div>
+                            </div>
+                            <div class="icon-box">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="charts">
+                        <div class="chart">
+                            <h2>Earnings (past 12 months)</h2>
+                            <div>
+                                <canvas id="lineChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart doughnut-chart">
+                            <h2>Employees</h2>
+                            <div>
+                                <canvas id="doughnut"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        <!--ADD NEW PRODUCT-->
+        <div class="crud content">
+
+            <div class="head">
+                <h2>إضافة منتج جديد</h2>
+            </div>
+            <div class="inputs">
+                <input type="text" id="title" placeholder="إسم">
+                <div class="price">
+                    <input onkeyup = getTotal() type="number" id="price" placeholder="ثمن">
+                    <input onkeyup = getTotal() type="number" id="taxes" placeholder="ضرائب">
+                    <input onkeyup = getTotal() type="number" id="ads" placeholder="إعلانات">
+                    <input onkeyup = getTotal() type="number" id="discount" placeholder="تخفيض">
+                    <small onkeyup = getTotal() id="total"></small>
+                </div>
+                <input type="number" id="count" placeholder="الكمية">
+                <input type="text" id="category" placeholder="الصنف" autocomplete="off">
+                <div class="result-box">
+     
+                </div>
+
+                <input type="file" id="imageUpload" name="image" accept="image/*">
+                <button id="submit">إضافة</button>
+            </div>
+            <div class="outputs">
+                <div class="searchBlock">
+                    <input type="text" onkeyup="searchData(this.value)" id="search" placeholder="بحث">
+                    <div class="btnSearch">
+                        <button onclick="getSearchMod(this.id)" id="searchTitle">البحث من خلال الاسم</button>
+                        <button onclick="getSearchMod(this.id)" id="searchCategory">البحث من خلال الصنف</button>
+    
+                    </div>
+                </div>
+                <div class="delete-all"></div>
+                <div class="out-stock"></div>
+
+    
+    
+                <table>
+                    <tr>
+                        <th>رقم</th>
+                        <th>صورة المنتج</th>
+                        <th>الاسم</th>
+                        <th>الثمن</th>
+                        <th>الإعلانات</th>
+                        <th>التخفيضات</th>
+                        <th>المجموع</th>
+                        <th>الكمية</th>
+                        <th>الصنف</th>
+                        <th>التاريخ</th>
+                        <th>تحديث</th>
+                        <th>مسح</th>
+                    </tr>
+    
+                    <tbody id="tbody">
+    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--SELL OPERATIONS-->
+        <div class="content sell">
+            <h2>عمليات البيع</h2>
+            <div class="inputs">
+                <input type="number" onkeyup="sellDone()"  id="productId" placeholder="رقم المنتج">
+                <input type="number" id="quantSell" placeholder=" الكمية التي تم بيعها">
+                <button onclick="sellDone(), showToast(sellMsg)" id="sellBtn">تم البيع</button>
+            </div>
+            <div class="productCard">
+            </div>
+
+        </div>
+
+        <!--info-->
+        <div class="content">
+            <h2>info</h2>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Omnis, quia.</p>
+        </div>
+        <div class="content settings">
+            <div class="settings-container">
+                <img src="repeat.png" id="profile" alt="">
+                <h3 id="saved-name"></h3>
+                <p>سيتم التنبيه بنفاذ المخزون عند : <span id="out">0</span></p>
+                <div class="profil-settings">
+                    <label for="store-name" class="margin">إسم المتجر</label>
+                    <input type="text" class="margin" id="store-name">
+                    <label for="store-pic" class="margin">صورة المتجر</label>
+                    <input type="file" class="margin" id="store-pic" name="image" accept="image/*">
+                    <hr>
+                </div>
+                <div class="store-settings">
+                    <label for="out-stock-input" class="margin">تنبيه بنقاذ المخزون</label>
+                    <input type="number" class="margin" id="out-stock-input">
+                    <div>
+                    <label for="refresh" class="margin"> إعادة ضبط التقرير </label>
+                    <input type="checkbox" style="display: inline-block;">
+                    </div>
+                    <hr>
+                </div>
+                <div class="settings-btn">
+                    <button onclick="saveProfile()" id="save">حفظ</button>
+                    <button id="ignore">إلغاء</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="toastBox"></div>
+
+    <script src="main.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    <script src="chart1.js"></script>
+    <script src="chart2.js"></script>
+
+</body>
+</html>
+<!--
+       <div popover  popovertarget="deleteALL" id="deleteALL" style="border: 1px solid black; position: absolute; top: 50%; left: 50%;" >
+        <p>هل تريد مسح جميع المنتجات؟ </p>
+        <button onclick="cleanData()" >نعم  </button>
+        <button> لا </button>
+        </div>
+-->
